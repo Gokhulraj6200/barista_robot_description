@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot name="standoff"  xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:property name="rlength" value="0.22" />
+  <xacro:property name="rradius" value="0.01" />
+
+<xacro:macro name="standoff" params="rod_num">  
+  <link name="${rod_num}">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${rlength}" radius="${rradius}"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${rlength}" radius="${rradius}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.5" />
+      <inertia ixx="0.00202916667" ixy="0.0" ixz="0.0" iyy="0.00202916667" iyz="0.0" izz="0.000025" />
+    </inertial>
+  </link>
+
+    <gazebo reference="${rod_num}">
+      <material>Gazebo/White</material>
+    </gazebo> 
+    
+    <xacro:if value="${rod_num == 'rod_1'}">
+      <joint name="rod_1_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_1"/>
+        <origin rpy="0 0 0" xyz="0.130 0.05 0.185" />
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${rod_num == 'rod_2'}">
+      <joint name="rod_2_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_2"/>
+        <origin xyz="0.130 -0.05 0.185" rpy="0 0 0"/>
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${rod_num == 'rod_3'}">
+      <joint name="rod_3_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_3"/>
+        <origin xyz="-0.130 0.05 0.185" rpy="0 0 0"/>
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${rod_num == 'rod_4'}">
+      <joint name="rod_4_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_4"/>
+        <origin xyz="-0.130 -0.05 0.185" rpy="0 0 0"/>
+      </joint>
+    </xacro:if>
+
+
+</xacro:macro>
+
+</robot>

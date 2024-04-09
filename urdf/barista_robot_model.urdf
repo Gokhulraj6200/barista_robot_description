@@ -21,10 +21,6 @@
       <color rgba="1.0 1.0 1.0 1"/>
   </material>
 
-  <material name="box_bot_blue">
-      <color rgba="0.088656 0.428691 0.491021 1"/>
-  </material>
-
   <link name="base_link">
   </link>
 
