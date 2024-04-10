@@ -29,39 +29,6 @@
       <material>Gazebo/White</material>
     </gazebo> 
     
-    <xacro:if value="${rod_num == 'rod_1'}">
-      <joint name="rod_1_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="rod_1"/>
-        <origin rpy="0 0 0" xyz="0.130 0.05 0.185" />
-      </joint>
-    </xacro:if>
-
-    <xacro:if value="${rod_num == 'rod_2'}">
-      <joint name="rod_2_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="rod_2"/>
-        <origin xyz="0.130 -0.05 0.185" rpy="0 0 0"/>
-      </joint>
-    </xacro:if>
-
-    <xacro:if value="${rod_num == 'rod_3'}">
-      <joint name="rod_3_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="rod_3"/>
-        <origin xyz="-0.130 0.05 0.185" rpy="0 0 0"/>
-      </joint>
-    </xacro:if>
-
-    <xacro:if value="${rod_num == 'rod_4'}">
-      <joint name="rod_4_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="rod_4"/>
-        <origin xyz="-0.130 -0.05 0.185" rpy="0 0 0"/>
-      </joint>
-    </xacro:if>
-
-
 </xacro:macro>
 
 </robot>

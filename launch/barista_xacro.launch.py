@@ -45,7 +45,13 @@ def generate_launch_description():
             os.path.join(pkg_gazebo_ros, 'launch', 'gazebo.launch.py'),
         )
     )
-
+  
+    joint_state_publisher_node = Node(
+                package="joint_state_publisher",
+                executable="joint_state_publisher",
+                name="joint_state_publisher",
+            )
+            
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -97,6 +103,7 @@ def generate_launch_description():
           default_value=[os.path.join(pkg_box_bot_gazebo, 'worlds', 'empty.world'), ''],
           description='SDF world file'),
         gazebo,
+        joint_state_publisher_node,
         robot_state_publisher_node,
         spawn_robot,
         rviz_node

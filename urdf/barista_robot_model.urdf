@@ -299,14 +299,14 @@
     <visual>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.015" radius="0.025"/>
+          <cylinder length="0.015" radius="0.0352"/>
         </geometry>
         <material name="blue"/>
       </visual>
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
       <geometry>
-            <cylinder length="0.015" radius="0.025"/>
+            <cylinder length="0.015" radius="0.0352"/>
       </geometry>
     </collision>
   </link>
@@ -328,14 +328,14 @@
       <visual>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.015" radius="0.025"/>
+          <cylinder length="0.015" radius="0.0352"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
       <geometry>
-        <cylinder length="0.015" radius="0.025"/>
+        <cylinder length="0.015" radius="0.0352"/>
       </geometry>
      </collision>
   </link>
@@ -357,14 +357,14 @@
     <visual>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.025"/>
+        <sphere radius="0.0352"/>
       </geometry>
       <material name="white"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
       <geometry>
-        <cylinder length="0.015" radius="0.025"/>
+        <cylinder length="0.015" radius="0.0352"/>
       </geometry>
     </collision>
   </link>
@@ -393,14 +393,14 @@
     <visual>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.015" radius="0.025"/>
+          <cylinder length="0.015" radius="0.0352"/>
         </geometry>
         <material name="blue"/>
       </visual>
       <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
       <geometry>
-        <cylinder length="0.015" radius="0.025"/>
+        <cylinder length="0.015" radius="0.0352"/>
       </geometry>
     </collision>
   </link>
@@ -423,14 +423,14 @@
       <visual>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.015" radius="0.025"/>
+          <cylinder length="0.015" radius="0.0352"/>
         </geometry>
         <material name="red"/>
       </visual>
       <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
       <geometry>
-        <cylinder length="0.015" radius="0.025"/>
+        <cylinder length="0.015" radius="0.0352"/>
       </geometry>
     </collision>
   </link>
@@ -452,14 +452,14 @@
     <visual>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.025"/>
+        <sphere radius="0.0352"/>
       </geometry>
       <material name="white"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
       <geometry>
-        <cylinder length="0.015" radius="0.025"/>
+        <cylinder length="0.015" radius="0.0352"/>
       </geometry>
     </collision>
   </link>

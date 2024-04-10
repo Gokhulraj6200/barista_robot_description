@@ -2,6 +2,7 @@
 <robot name="barista_bot" xmlns:xacro="http://ros.org/wiki/xacro">
 
 <xacro:include filename="$(find barista_robot_description)/xacro/wheel.xacro" />
+<xacro:include filename="$(find barista_robot_description)/xacro/caster.xacro" />
 <xacro:include filename="$(find barista_robot_description)/xacro/standoff.xacro" />
 <xacro:include filename="$(find barista_robot_description)/xacro/cup_holder_tray.xacro" />
 <xacro:include filename="$(find barista_robot_description)/xacro/laser_scanner.xacro" />
@@ -62,29 +63,61 @@
 
 
 <xacro:standoff rod_num="rod_1" />
-<xacro:standoff rod_num="rod_2" />
-<xacro:standoff rod_num="rod_3" />
-<xacro:standoff rod_num="rod_4" />
-<xacro:cup_holder_tray cup_name="cupholder_link" />
-<xacro:wheel wheel_name="left_wheel" />
-<xacro:wheel wheel_name="right_wheel" />
+      <joint name="rod_1_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_1"/>
+        <origin rpy="0 0 0" xyz="0.130 0.05 0.185" />
+      </joint>
 
-  <!-- Caster Wheel Front -->
-  <link name="front_yaw_link">
-    <visual>
-        <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
-        <geometry>
-          <cylinder length="0.015" radius="0.025"/>
-        </geometry>
-        <material name="blue"/>
-      </visual>
-    <collision>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
-      <geometry>
-            <cylinder length="0.015" radius="0.025"/>
-      </geometry>
-    </collision>
-  </link>
+<xacro:standoff rod_num="rod_2" />
+      <joint name="rod_2_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_2"/>
+        <origin xyz="0.130 -0.05 0.185" rpy="0 0 0"/>
+      </joint>
+
+<xacro:standoff rod_num="rod_3" />
+      <joint name="rod_3_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_3"/>
+        <origin xyz="-0.130 0.05 0.185" rpy="0 0 0"/>
+      </joint>
+
+<xacro:standoff rod_num="rod_4" />
+      <joint name="rod_4_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rod_4"/>
+        <origin xyz="-0.130 -0.05 0.185" rpy="0 0 0"/>
+      </joint>
+
+<xacro:cup_holder_tray cup_name="cupholder_link" />
+    <joint name="cupholder_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="cupholder_link"/>
+        <origin xyz="0 0 0.330" rpy="0 0 0"/>
+    </joint>
+
+<xacro:wheel wheel_name="left_wheel" />
+  <joint name="joint_left_wheel" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.15 -0.0775"/>
+    <child link="left_wheel"/>
+    <parent link="base_link"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="1000" velocity="100"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+<xacro:wheel wheel_name="right_wheel" />
+  <joint name="joint_right_wheel" type="fixed">  
+    <origin rpy="0 0 0" xyz="0 -0.15 -0.0775"/>
+    <child link="right_wheel"/>
+    <parent link="base_link"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <limit effort="1000" velocity="100"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+<xacro:caster pos="front" />
 
   <joint name="front_yaw_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.10 0 -0.0770" />
@@ -99,22 +132,6 @@
         <material>Gazebo/Blue</material>
   </gazebo>
 
-  <link name="front_roll_link">
-      <visual>
-        <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
-        <geometry>
-          <cylinder length="0.015" radius="0.025"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
-      <geometry>
-        <cylinder length="0.015" radius="0.025"/>
-      </geometry>
-     </collision>
-  </link>
-
   <joint name="front_roll_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0" />
     <parent link="front_yaw_link" />
@@ -128,22 +145,6 @@
         <material>Gazebo/Red</material>
   </gazebo>
 
-  <link name="front_pitch_link">
-    <visual>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.025"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
-      <geometry>
-        <cylinder length="0.015" radius="0.025"/>
-      </geometry>
-    </collision>
-  </link>
-
   <joint name="front_pitch_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0" />
     <parent link="front_roll_link" />
@@ -154,31 +155,14 @@
   </joint>
 
   <gazebo reference="front_pitch_link">
-    <kp>10000000.0</kp>
-    <kd>10000000.0</kd>
+    <kp>1000000000.0</kp>
+    <kd>1000000000.0</kd>
     <mu1>0.5</mu1>
     <mu2>0.5</mu2>
     <material>Gazebo/White</material>
   </gazebo>
 
-
-
-<!-- Caster Wheel Back -->
-  <link name="back_yaw_link">
-    <visual>
-        <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
-        <geometry>
-          <cylinder length="0.015" radius="0.025"/>
-        </geometry>
-        <material name="blue"/>
-      </visual>
-      <collision>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
-      <geometry>
-        <cylinder length="0.015" radius="0.025"/>
-      </geometry>
-    </collision>
-  </link>
+<xacro:caster pos="back" />
 
   <joint name="back_yaw_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.10 0 -0.0770" />
@@ -193,23 +177,6 @@
         <material>Gazebo/Blue</material>
   </gazebo>
 
- 
-  <link name="back_roll_link">
-      <visual>
-        <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
-        <geometry>
-          <cylinder length="0.015" radius="0.025"/>
-        </geometry>
-        <material name="red"/>
-      </visual>
-      <collision>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
-      <geometry>
-        <cylinder length="0.015" radius="0.025"/>
-      </geometry>
-    </collision>
-  </link>
-
   <joint name="back_roll_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0" />
     <parent link="back_yaw_link" />
@@ -222,22 +189,6 @@
   <gazebo reference="back_roll_link">
         <material>Gazebo/Red</material>
   </gazebo>
-
-  <link name="back_pitch_link">
-    <visual>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.025"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.5707 1.5707" xyz="0 0 0" />
-      <geometry>
-        <cylinder length="0.015" radius="0.025"/>
-      </geometry>
-    </collision>
-  </link>
 
   <joint name="back_pitch_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0" />
@@ -255,7 +206,6 @@
     <mu2>0.5</mu2>
     <material>Gazebo/White</material>
   </gazebo>
-
 
 <xacro:laser_scanner include_laser="$(arg include_laser)" />
 
