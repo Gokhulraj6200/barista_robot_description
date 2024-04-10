@@ -103,8 +103,8 @@ def generate_launch_description():
           default_value=[os.path.join(pkg_box_bot_gazebo, 'worlds', 'empty.world'), ''],
           description='SDF world file'),
         gazebo,
-        joint_state_publisher_node,
         robot_state_publisher_node,
+        joint_state_publisher_node,
         spawn_robot,
         rviz_node
     ])
