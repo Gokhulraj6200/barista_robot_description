@@ -24,10 +24,6 @@
     </inertial>
   </link>
 
-<gazebo reference="${cup_name}">
-    <material>Gazebo/Red</material>
-</gazebo>
-
 <xacro:if value="${cup_name == 'cupholder_link'}">
 
 </xacro:if>
