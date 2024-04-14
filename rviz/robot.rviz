@@ -120,8 +120,8 @@ Visualization Manager:
           Value: true
         lidar:
           Alpha: 1
-          Show Axes: false
-          Show Trail: false
+          Show Axes: true
+          Show Trail: true
           Value: true
         right_wheel:
           Alpha: 1

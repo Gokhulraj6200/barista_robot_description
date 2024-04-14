@@ -5,7 +5,8 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import Command, LaunchConfiguration
+from launch.substitutions import Command
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -21,7 +22,7 @@ def generate_launch_description():
 
     # Set the path to the WORLD model files. Is to find the models inside the models folder in my_box_bot_gazebo package
     gazebo_models_path = os.path.join(pkg_box_bot_gazebo, 'meshes')
-    robot_path = os.path.join(pkg_box_bot_gazebo, "xacro", 'barista_tworobot_model.urdf.xacro')
+    robot_path = os.path.join(pkg_box_bot_gazebo, "xacro", 'barista_two_robot_model.urdf.xacro')
 
     # os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
 
@@ -45,8 +46,8 @@ def generate_launch_description():
             os.path.join(pkg_gazebo_ros, 'launch', 'gazebo.launch.py'),
         )
     )
-  
-    robot_name_1 = "ricky"
+
+    robot_name_1 = "rick"
     robot_name_2 = "morty"
 
     robot_state_publisher_node1 = Node(
@@ -56,9 +57,10 @@ def generate_launch_description():
         namespace=robot_name_1,
         emulate_tty=True,
         parameters=[{
+            'tf_prefix': robot_name_1+'/',
             'frame_prefix': robot_name_1+'/',
             'use_sim_time': True,
-            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_1])
+            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_1, ' gazebo_color:=', 'Gazebo/Red'])
         }],
         output="screen"
     )
@@ -70,18 +72,13 @@ def generate_launch_description():
         namespace=robot_name_2,
         emulate_tty=True,
         parameters=[{
+            'tf_prefix': robot_name_2+'/',
             'frame_prefix': robot_name_2+'/',
             'use_sim_time': True,
-            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_2])
+            'robot_description': Command(['xacro ', robot_path, ' include_laser:=', LaunchConfiguration('include_laser'), ' robot_name:=', robot_name_2, ' gazebo_color:=', 'Gazebo/Blue'])
         }],
         output="screen"
     )
-
-    joint_state_publisher_node = Node(
-                package="joint_state_publisher",
-                executable="joint_state_publisher",
-                name="joint_state_publisher",
-            )
 
 
     rviz_config_dir = os.path.join(pkg_box_bot_gazebo, 'rviz', 'two_robot.rviz')
@@ -102,9 +99,10 @@ def generate_launch_description():
         name='spawn_entity_1',
         output='screen',
         arguments=['-entity', 'rick',
-                   '-x', '0', '-y', '0', '-z', '0.2',
+                   '-x', '4', '-y', '0', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
-                   '-topic', robot_name_1+'/robot_description'
+                   '-topic', '/' + robot_name_1 + '/robot_description'
+
                    ]
     )
 
@@ -114,9 +112,10 @@ def generate_launch_description():
         name='spawn_entity_2',
         output='screen',
         arguments=['-entity', 'morty',
-                   '-x', '5', '-y', '5', '-z', '0.2',
+                   '-x', '4', '-y', '3', '-z', '0.2',
                    '-R', '0', '-P', '0', '-Y', '0',
-                   '-topic', robot_name_2+'/robot_description'
+                   '-topic', '/' + robot_name_2 + '/robot_description'
+
                    ]
     )
 
@@ -124,6 +123,45 @@ def generate_launch_description():
         'include_laser',
         default_value='true',
         description='Include the laser scanner sensor'
+    )
+
+    static_tf_rick = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_transform_publisher_rick',
+        output='screen',
+        emulate_tty=True,
+        arguments=['0', '0', '0', '0', '0', '0', 'world', 'morty/odom']
+    )
+
+    static_tf_morty = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='static_transform_publisher_morty',
+        output='screen',
+        emulate_tty=True,
+        arguments=['0', '0', '0', '0', '0', '0', 'world', 'rick/odom']
+    )
+
+    spawn_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+        output="screen",
+    )
+
+    spawn_controller_traj = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_trajectory_controller"],
+        output="screen",
+    )
+
+    spawn_controller_velocity = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["velocity_controller"],
+        output="screen",
     )
 
 
@@ -136,8 +174,9 @@ def generate_launch_description():
         gazebo,
         robot_state_publisher_node1,
         robot_state_publisher_node2,
-        joint_state_publisher_node,
         spawn_robot1,
         spawn_robot2,
-        rviz_node
+        rviz_node,
+        static_tf_morty,
+        static_tf_rick
     ])

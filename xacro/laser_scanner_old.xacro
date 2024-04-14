@@ -1,22 +1,24 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   
-  <xacro:macro name="laser_scanner" params="robot_name include_laser:=true">
+  <xacro:macro name="laser_scanner" params="include_laser:=true">
     <xacro:if value="${include_laser}">
-      <link name="lidar">
-          <visual>
-          <origin rpy="0 0 0" xyz="0.0 0 -0.055" />
-              <geometry>
-                  <mesh filename="package://barista_robot_description/meshes/hokuyo_urg_04lx.dae"/>
-              </geometry>
-          </visual>
-      </link>
+    <link name="lidar">
+        <visual>
+        <origin rpy="0 0 0" xyz="0 0 -0.055" />
+            <geometry>
+                <mesh filename="package://barista_robot_description/meshes/hokuyo_urg_04lx.dae"/>
+            </geometry>
 
-      <joint name="lidar_joint" type="fixed">
-          <origin rpy="0 0 0" xyz="0.120 0 0.130" />
-          <parent link="chassis" />
-          <child link="lidar" />
-      </joint>
+      <material name="black"/>
+        </visual>
+    </link>
+
+    <joint name="lidar_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0.120 0 0.130" />
+        <parent link="base_link" />
+        <child link="lidar" />
+    </joint>
 
       <gazebo reference="lidar">
           <material>Gazebo/Black</material>
@@ -43,12 +45,8 @@
           <visualize>true</visualize>
           <update_rate>50.0</update_rate>
           <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
-            <frame_name>${robot_name}/base_link</frame_name>
-            <topic_name>${robot_name}/scan</topic_name>
             <ros>
-              <namespace>${robot_name}</namespace>
               <remapping>~/out:=scan</remapping>
-
             </ros>
             <output_type>sensor_msgs/LaserScan</output_type>
           </plugin>
