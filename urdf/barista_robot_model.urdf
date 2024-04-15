@@ -483,9 +483,9 @@
 
     <link name="lidar">
         <visual>
-        <origin rpy="0 0 0" xyz="0 0 -0.055" />
+        <origin rpy="0 0 0" xyz="0 0 -0.0025" />
             <geometry>
-                <mesh filename="package://barista_robot_description/meshes/hokuyo_urg_04lx.dae"/>
+                <mesh filename="package://barista_robot_description/meshes/hokuyo_urg_04lx.dae" scale="0.5 0.5 0.5"/>
             </geometry>
 
       <material name="black"/>
@@ -497,7 +497,7 @@
   </gazebo>
 
     <joint name="lidar_joint" type="fixed">
-        <origin rpy="0 0 0" xyz="0.120 0 0.130" />
+        <origin rpy="0 0 0" xyz="0 0.130 0.08" />
         <parent link="base_link" />
         <child link="lidar" />
     </joint>
